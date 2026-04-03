@@ -1,35 +1,43 @@
-from __future__ import annotations
-
-import os
-from crewai import Agent, Crew, Process
-from crewai.project import CrewBase, agent, crew
+from crewai import Agent, Crew, Process, Task
+from crewai.project import CrewBase, agent, crew, task
 
 
 @CrewBase
 class TenderAgentsAmp:
+    """TenderAgentsAmp crew"""
 
     @agent
     def research_agent(self) -> Agent:
         return Agent(
-            role="Purchase Request Researcher",
-            goal="Collect the facts required for a purchase-approval decision.",
-            backstory="You gather vendor details, cost, business purpose, urgency, risks.",
+            config=self.agents_config["research_agent"],
             verbose=True,
         )
 
     @agent
     def approval_agent(self) -> Agent:
         return Agent(
-            role="Approval Pack Writer",
-            goal="Prepare a clean approval pack for a human reviewer.",
-            backstory="You convert findings into a concise approval pack.",
+            config=self.agents_config["approval_agent"],
             verbose=True,
+        )
+
+    @task
+    def collect_purchase_context(self) -> Task:
+        return Task(
+            config=self.tasks_config["collect_purchase_context"],
+        )
+
+    @task
+    def prepare_human_review_pack(self) -> Task:
+        return Task(
+            config=self.tasks_config["prepare_human_review_pack"],
         )
 
     @crew
     def crew(self) -> Crew:
+        """Creates the TenderAgentsAmp crew"""
         return Crew(
-            agents=[self.research_agent(), self.approval_agent()],
+            agents=self.agents,
+            tasks=self.tasks,
             process=Process.sequential,
             verbose=True,
         )
