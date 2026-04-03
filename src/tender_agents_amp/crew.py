@@ -15,12 +15,6 @@ class TenderAgentsAmp:
     2) Backend /approvals/approve resumes the workflow
     """
 
-    agents_config = "config/agents.yaml"
-    tasks_config = "config/tasks.yaml"
-
-    def __init__(self):
-        self.public_base_url = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
-
     @agent
     def research_agent(self) -> Agent:
         return Agent(
@@ -72,10 +66,12 @@ class TenderAgentsAmp:
 
     @task
     def prepare_human_review_pack(self) -> Task:
+        public_base_url = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
+
         webhook_note = (
             f"When human approval is required, send the HITL request to: "
-            f"{self.public_base_url}/webhooks/crewai-hitl"
-            if self.public_base_url
+            f"{public_base_url}/webhooks/crewai-hitl"
+            if public_base_url
             else "When human approval is required, send the HITL request to "
                  "the configured backend endpoint /webhooks/crewai-hitl."
         )

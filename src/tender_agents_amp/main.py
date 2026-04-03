@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import json
-import os
 import sys
 import warnings
 from datetime import datetime
@@ -11,7 +10,6 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 
 def build_default_inputs() -> dict:
-    """Default payload aligned with the purchase-approval use case."""
     return {
         "purchase_request_id": "PR-1001",
         "requester": "Nora",
@@ -27,7 +25,6 @@ def build_default_inputs() -> dict:
 
 
 def run():
-    """Run the crew locally using the AMP scaffold entry point."""
     inputs = build_default_inputs()
     try:
         result = TenderAgentsAmp().crew().kickoff(inputs=inputs)
@@ -35,17 +32,6 @@ def run():
         return result
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
-
-
-def run_remote():
-    """Kick off the deployed AMP workflow with webhook-based HITL enabled."""
-    inputs = build_default_inputs()
-    try:
-        result = TenderAgentsAmp().kickoff_remote_execution(inputs=inputs)
-        print(result)
-        return result
-    except Exception as e:
-        raise Exception(f"An error occurred while starting the remote execution: {e}")
 
 
 def train():
@@ -100,8 +86,4 @@ def run_with_trigger():
 
 
 if __name__ == "__main__":
-    mode = os.getenv("CREW_RUN_MODE", "local").strip().lower()
-    if mode == "remote":
-        run_remote()
-    else:
-        run()
+    run()
