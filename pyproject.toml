@@ -1,0 +1,24 @@
+[project]
+name = "tender_agents_amp"
+version = "0.1.0"
+description = "tender_agents_amp using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[tools]==1.12.2"
+]
+
+[project.scripts]
+tender_agents_amp = "tender_agents_amp.main:run"
+run_crew = "tender_agents_amp.main:run"
+train = "tender_agents_amp.main:train"
+replay = "tender_agents_amp.main:replay"
+test = "tender_agents_amp.main:test"
+run_with_trigger = "tender_agents_amp.main:run_with_trigger"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
