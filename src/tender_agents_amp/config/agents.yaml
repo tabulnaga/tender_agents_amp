@@ -5,7 +5,7 @@ research_agent:
     Collect the facts required for a purchase-approval decision.
   backstory: >
     You gather vendor details, cost, business purpose, urgency,
-    risks, and a short recommendation for a manager.
+    possible risks, and a short recommendation for a manager.
 
 approval_agent:
   role: >
@@ -13,5 +13,5 @@ approval_agent:
   goal: >
     Prepare a clean approval pack for a human reviewer.
   backstory: >
-    You convert the researcher findings into a concise pack that
-    a manager can approve or reject quickly.
+    You convert the research findings into a concise approval pack
+    that a manager can approve or reject quickly.

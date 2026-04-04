@@ -1,25 +1,25 @@
-#!/usr/bin/env python
+import json
+import os
+
 from tender_agents_amp.crew import TenderAgentsAmp
 
 
 def run():
-    inputs = {
-        "topic": "Purchase Request Approval",
-        "current_year": "2026",
-        "purchase_request_id": 1,
-        "requester": "John Doe",
-        "vendor": "Dell",
-        "amount_usd": 2500,
-        "currency": "USD",
-        "purpose": "Purchase of laptop for engineering team",
-        "urgency": "High",
-        "reviewer_user_id": "manager1",
-        "reviewer_email": "manager@example.com",
-    }
+    raw_inputs = os.getenv("CREW_INPUTS", "{}")
+
+    try:
+        inputs = json.loads(raw_inputs)
+    except Exception:
+        inputs = {}
 
     result = TenderAgentsAmp().crew().kickoff(inputs=inputs)
     print(result)
 
 
+def run_crew():
+    run()
+
+
 if __name__ == "__main__":
     run()
+    # run_crew()    

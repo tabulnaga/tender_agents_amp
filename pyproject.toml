@@ -10,11 +10,7 @@ dependencies = [
 
 [project.scripts]
 tender_agents_amp = "tender_agents_amp.main:run"
-run_crew = "tender_agents_amp.main:run"
-train = "tender_agents_amp.main:train"
-replay = "tender_agents_amp.main:replay"
-test = "tender_agents_amp.main:test"
-run_with_trigger = "tender_agents_amp.main:run_with_trigger"
+run_crew = "tender_agents_amp.main:run_crew"
 
 [build-system]
 requires = ["hatchling"]

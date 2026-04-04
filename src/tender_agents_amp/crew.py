@@ -6,6 +6,9 @@ from crewai.project import CrewBase, agent, crew, task
 class TenderAgentsAmp:
     """TenderAgentsAmp crew"""
 
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+
     @agent
     def research_agent(self) -> Agent:
         return Agent(

@@ -1,39 +1,48 @@
 collect_purchase_context:
   description: >
-    Given a purchase request, summarize the requester, amount,
-    vendor, purpose, urgency, and any known risks.
-    Return a short structured summary.
+    Analyze the following purchase request and prepare a short structured summary.
 
-    Use these inputs when available:
-    - purchase_request_id
-    - requester
-    - vendor
-    - amount_usd
-    - currency
-    - purpose
-    - urgency
-    - reviewer_user_id
-    - reviewer_email
+    Purchase Request ID: {purchase_request_id}
+    Requester: {requester}
+    Vendor: {vendor}
+    Amount (USD): {amount_usd}
+    Currency: {currency}
+    Purpose: {purpose}
+    Urgency: {urgency}
+    Reviewer User ID: {reviewer_user_id}
+    Reviewer Email: {reviewer_email}
+
+    Identify any missing details, possible risks, and provide a recommendation.
   expected_output: >
-    A structured summary containing purchase_request_id, requester,
-    vendor, amount_usd, currency, purpose, urgency, risk_notes,
+    A structured summary containing purchase_request_id, requester, vendor,
+    amount_usd, currency, purpose, urgency, risk_notes, missing_information,
     and recommendation.
   agent: research_agent
 
 prepare_human_review_pack:
   description: >
-    Turn the structured summary into a manager-friendly review pack.
-    Keep it concise and clear. Include what is being requested,
-    why it is needed, the recommendation, and any review notes.
+    Convert the structured summary into a concise manager-friendly approval pack.
 
-    This task requires Human-in-the-Loop approval.
+    Include:
+    - what is being requested
+    - why it is needed
+    - vendor and cost summary
+    - urgency
+    - key risks
+    - recommendation
+    - reviewer guidance
 
-    When human approval is required, send the HITL request to the
-    configured backend endpoint /webhooks/crewai-hitl.
+    Reviewer User ID: {reviewer_user_id}
+    Reviewer Email: {reviewer_email}
+
+    This step is intended for Human-in-the-Loop review.
+    When human approval is required, send the HITL request to:
+    {public_base_url}/webhooks/crewai-hitl
 
     After the human approves from the backend approval screen,
     the backend endpoint /approvals/approve will resume the workflow.
   expected_output: >
-    A final approval pack containing request summary, recommendation,
-    risk notes, and reviewer guidance, ready for human approval.
+    A clear approval pack formatted in markdown, containing request summary,
+    business need, vendor and cost summary, urgency, risk notes,
+    recommendation, reviewer guidance, and next action.
   agent: approval_agent
